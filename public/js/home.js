@@ -23,7 +23,7 @@ loginForm.addEventListener("click", async function (e) {
           token: isValidUser.data.token,
         })
       );
-      //window.location.href = `/user/dashboard`;
+      window.location.href = `/user/dashboard`;
     }
   } catch (error) {
     window.location.href = `/html/incorrectPassword.html`;
@@ -43,12 +43,10 @@ signupForm.addEventListener("click", async (e) => {
     password: inputPassword.value,
   };
   try {
-    
     const response = await axios.post(`/user/signup`, userObj);
-    
+
     if (response.status == 200)
-    window.location.href = `/html/registeredSuccessfully.html`;
-     
+      window.location.href = `/html/registeredSuccessfully.html`;
   } catch (error) {
     window.location.href = `/html/alreadyUser.html`;
     console.log(error);
