@@ -14,7 +14,10 @@ exports.addExpenses = async (request, response, next) => {
       expenseId: ID,
     });
     await expense.save();
-    await user.updateTotal();
+    const val = user.totalexpenses;
+    const updatedTotalExpenses = Number(val) + Number(price);
+    user.totalexpenses = updatedTotalExpenses;
+    user.save();
 
     response.status(200).json({ message: "expense Added" });
   } catch (error) {
@@ -51,12 +54,11 @@ exports.deletebyId = async (request, response, next) => {
     const ID = request.params.expenseId;
     const user = request.user;
     const expense = await Expenses.findByIdAndDelete(ID);
-    if (expense) {
-      await user.updateTotal();
-      return response.status(200).json({ message: "deleted" });
-    } else {
-      return response.status(401).json({ message: "not Authorized" });
-    }
+    const val = user.totalexpenses;
+    user.totalexpenses = val - expense.amount;
+    user.save();
+    return response.status(200).json({ message: "deleted" });
+    
   } catch (error) {
     console.log(error);
   }

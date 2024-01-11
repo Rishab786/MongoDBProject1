@@ -48,10 +48,4 @@ const userSchema = new Schema({
     }
 });
 
-userSchema.methods.updateTotal = async function(){
-const expenses = await Expenses.find({userId:this._id},'amount -_id');
-let total = expenses.reduce((accumulator,item)=>accumulator+item.amount,0);
-this.totalexpenses = total;
-return this.save();
-}
 module.exports = mongoose.model('User', userSchema);

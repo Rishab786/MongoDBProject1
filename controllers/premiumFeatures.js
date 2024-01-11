@@ -8,7 +8,7 @@ exports.getLeaderboard = async (request, response, next) => {
     const leaderboard = await User.find({})
       .select("name totalexpenses")
       .sort({ totalexpenses: -1 })
-      .limit(15);
+      .limit(10);
     return response.status(200).json(leaderboard);
   } catch (error) {
     console.error(error);
